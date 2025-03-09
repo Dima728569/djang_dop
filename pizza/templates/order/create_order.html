@@ -1,0 +1,50 @@
+<h1>Our pizzas! Tasty and delicious!</h1>
+<ul>
+    {% for pizza in pizzas_list %}
+        <li>{{ pizza.name }}</li>
+        <div>
+            <mark>Ingridients</mark>
+        </div>
+        {% for topping in pizza.toppings.all %}
+            <ul>{{ topping.name }}</ul>
+        {% endfor %}
+    {% endfor %}
+</ul>
+<h1>Order your pizza now!</h1>
+<form action="" method="post" class="form">
+    {% csrf_token %}
+    {% for field in order_form %}
+        <div>
+            {{ field.label_tag }} {{ field }}
+        </div>
+        {% if field.help_text %}
+            <p class="help">{{ field.help_test|safe }}</p>
+        {% endif %}
+        {% if field.errors %}
+            {% for error in field.errors %}
+                {{ error }}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    <input type="submit" class="order" value="place order">
+</form>
+<button class="more">add more pizza</button>
+
+<script>
+    let pizza = document.querySelector('.pizzas')
+    let order = document.querySelector('.order')
+    let more = document.querySelector('.more')
+    let form = document.querySelector('.form')
+
+    more.addEventListener('click', (e) => {
+        e.preventDefault()
+        p = document.createElement('p')
+        l = document.createElement('label')
+        l.setAttribute('for', 'id_choice')
+        l.textContent = 'Choice:'
+        cloned = pizza.cloneNode(true)
+        p.append(l)
+        p.append(cloned)
+        form.insertBefore(p, order)
+    })
+</script>

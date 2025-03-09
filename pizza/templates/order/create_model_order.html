@@ -1,0 +1,40 @@
+<h1>Our pizzas! Tasty and delicious!</h1>
+<ul>
+{% for p in pizzas %}
+    <li>{{ p.name }}</li>
+    <div>
+        <mark>Ingridients</mark>
+    </div>
+    <ul>
+        {% for ingridient in p.toppings.all %}
+            <li>{{ ingridient }}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+</ul>
+<form action="" method="post" class="form">
+    {% csrf_token %}
+    {{ form_set.as_p }}
+    <input type="submit" value="place order">
+</form>
+<button class="more">add more pizza</button>
+
+<script>
+    let pizza = document.querySelector('#id_pizza_order')
+    let order = document.querySelector('.order')
+    let more = document.querySelector('.more')
+    let form = document.querySelector('.form')
+
+    more.addEventListener('click', (e) => {
+        e.preventDefault()
+        p = document.createElement('p')
+        l = document.createElement('label')
+        l.setAttribute('for', 'id_pizza_order')
+        l.textContext = 'Pizza order:'
+        cloned = pizza.cloneNode(true)
+        p.append(l)
+        p.append(cloned)
+        form.insertBefore(p, order)
+    })
+
+</script>
